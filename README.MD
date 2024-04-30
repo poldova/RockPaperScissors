@@ -1,6 +1,6 @@
 RPS game (UI version) with JS
 ## Usage
-for playing a Round press on of these button
+Press one of the buttons below for a round of gaming.
 ```javascript
 Rock
 Paper
