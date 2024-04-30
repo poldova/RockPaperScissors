@@ -1,50 +1,49 @@
 
-let playerSelection;
 let playerScore = 0;
 let computerScore = 0;
+let maxScore = 5;
+const RPS = ['Rock', 'Paper', 'Scissors'];
+const displayScore = document.querySelector('.score');
+const result = document.querySelector('.result');
+const main = document.querySelector('#menu');
 
 function getComputerChoice () {
-    const x = ['rock', 'paper', 'scissors'];
-    const r = Math.floor(Math.random()*3);
-    return x[r];
+    return RPS[Math.floor(Math.random() * RPS.length)];
 }
-
 
 function playRound(player, computer) {
-    if (player === 'rock' && computer === 'paper') {
-        computerScore++;
-        console.log(`*Rock* defeat *Paper*`)
-    } else if (player === 'paper' && computer === 'scissors') {
-        computerScore++ ;
-        console.log(`*Paper* defeat *Scissors*`)
-    } else if (player === 'scissors' && computer === 'rock') {
-        computerScore++ ;
-        console.log(`*Scissors* defeat *Rock*`)
-    } else if (player === 'rock' && computer === 'scissors') {
-        playerScore++ ;
-        console.log(`*Rock* beats *Scissors*`)
-    } else if (player === 'scissors' && computer === 'paper') {
-        playerScore++ ;
-        console.log(`*Scissors* beats *Paper*`)
-    } else if (player === 'paper' && computer === 'rock') {
-        playerScore++ ;
-        console.log(`*Paper* Beat *Rock*`)
-    } else if (player === computer) {
-        console.log(`*${player}* and *${computer}* are tie`)
+    if (!RPS.includes(player) || !RPS.includes(computer)) {
+        result.textContent = 'undefined input';
     } else {
-        console.log(`*${player}* is not valid! try again`)
+        if (
+            player === RPS[0] && computer === RPS[1] ||
+            player === RPS[1] && computer === RPS[2] ||
+            player === RPS[2] && computer === RPS[0]
+            ) {
+            ++computerScore;
+            result.textContent = `*${computer}* defeat *${player}*`;
+        } else if (
+            player === RPS[0] && computer === RPS[2] ||
+            player === RPS[2] && computer === RPS[1] ||
+            player === RPS[1] && computer === RPS[0]
+            ) {
+            ++playerScore;
+            result.textContent = `*${player}* defeat *${computer}*`;
+        } else {
+            result.textContent = `It's a tie! Both chose ${player}.`;
+        } 
     }
 }
 
-function playGame() {
-    for (let i = 0; i < 5; i++) {
-        playerSelection = prompt(`Choose: 'Rock', 'Paper' or 'Scissors'`).toLowerCase();
-        playRound(playerSelection,getComputerChoice());
+main.addEventListener('click', e => { 
+    if (playerScore === maxScore ) {
+        displayScore.textContent = `You won ${playerScore}-${computerScore}!`;
+    } else if (computerScore === maxScore) {
+        displayScore.textContent = `Computer wins ${computerScore}-${playerScore}.`;
+    } else {
+        let playerChoose = e.target.id;
+        playRound(playerChoose, getComputerChoice());
+        displayScore.textContent = `You: ${playerScore} | Computer: ${computerScore}`;
     }
-    console.log(playerScore > computerScore ? `you won. ${playerScore} vs ${computerScore}`
-    : playerScore < computerScore ? `you lose!  ${playerScore} vs ${computerScore}`
-    : `it's tie. ${playerScore} vs ${computerScore}`
-    )
-}
-
-playGame()
+    
+})
