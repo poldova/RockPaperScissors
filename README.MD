@@ -1,6 +1,8 @@
-Console RPS game with JS
+RPS game (UI version) with JS
 ## Usage
-To play again
-```shel
-playgame()
+for playing a Round press on of these button
+```javascript
+Rock
+Paper
+Scissors
 ```
